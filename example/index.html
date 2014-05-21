@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+  <script src="../vendor/jquery.caret.js"></script>
+  <script src="../lib/jquery.mobilePhoneNumber.js"></script>
+
+  <style type="text/css">
+  * {
+    font-family: "Helvetica Neue", Helvetica, Arial
+  }
+  div {
+    float: left;
+    padding: 5px 7px 0;
+    color: gray;
+    width: 50px;
+    text-align: right
+  }
+  input, div {
+    font-size: 24px;
+  }
+  </style>
+
+  <script>
+    jQuery(function($){
+      var input = $('[type=tel]')
+      input.mobilePhoneNumber();
+      input.bind('country.mobilePhoneNumber', function(e, country) {
+        $('.country').text(country || '')
+      })
+    });
+  </script>
+
+</head>
+<body>
+
+  <h2>Mobile phone number formatting</h2>
+
+  <div class="country"></div>
+  <input type="tel" class="tel" pattern="\d*" x-autocompletetype="tel" autofocus>
+
+</body>
+</html>
