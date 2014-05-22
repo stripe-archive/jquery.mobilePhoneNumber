@@ -15,6 +15,10 @@ $('input').bind('country.mobilePhoneNumber', function(e, country) {
 })
 ```
 
+Dependencies:
+- [jQuery.caret](http://plugins.jquery.com/caret/)
+- Tested on jQuery 1.8.3
+
 ## API
 
 ### $.fn.mobilePhoneNumber([options])
