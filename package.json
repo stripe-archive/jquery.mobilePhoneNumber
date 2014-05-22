@@ -6,14 +6,16 @@
   "keywords": [
     "phone"
   ],
+  "author": "Stripe (https://www.stripe.com)",
+  "license": "MIT",
   "repository": {
     "type": "git",
     "url": "https://github.com/stripe/jquery.mobilePhoneNumber.git"
   },
+  "main": "lib/jquery.mobilePhoneNumber.js",
   "scripts": {
     "test": "cake test"
   },
-  "main": "lib/jquery.mobilePhoneNumber.js",
   "dependencies": {
     "jquery": ">=1.5"
   },
