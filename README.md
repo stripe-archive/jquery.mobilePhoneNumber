@@ -1,7 +1,7 @@
 jQuery.mobilePhoneNumber
 ========================
 
-This plugin allows you to add mobile phone number formatting in any HTML input: [demo here](todo).
+This plugin allows you to add mobile phone number formatting in any HTML input: [demo here](http://stripe.github.io/jquery.mobilePhoneNumber/example/).
 
 Example:
 ``` javascript
