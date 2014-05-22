@@ -18,34 +18,29 @@ $('input').bind('country.mobilePhoneNumber', function(e, country) {
 ## API
 
 ### $.fn.mobilePhoneNumber()
-
 Enable the automatic mobile phone number for an input.
-Returns a `MobilePhoneNumberInput` object
 
-### $.formatMobilePhoneNumber(phone)
-
-Returns the formatted phone number.
-
-### MobilePhoneNumberInput
-
-#### setAllowsPhoneWithoutPrefix(prefix)
+### $.fn.mobilePhoneNumber('allowsPhoneWithoutPrefix', prefix)
 Allows the user to type a phone number without the prefix for this specific prefix.
 - `prefix`: `String`, example: "+1"
 
-#### val()
-Returns a `String` as a formatted phone number.
+### $.fn.mobilePhoneNumber('val')
+Returns a `String` with the prefixed phone number.
 
-#### validate()
+### $.fn.mobilePhoneNumber('validate')
 Check if the entered phone number is valid.
 Note: this implementation is too naive, it only validates if the phone number entered is longer than the prefix.
 
-#### country()
+### $.fn.mobilePhoneNumber('country')
 Returns the country code of the entered phone number.
 
-#### prefix()
+### $.fn.mobilePhoneNumber('prefix')
 Returns the prefix of the entered phone number.
 
-### Events
+### $.formatMobilePhoneNumber(phone)
+Returns the formatted phone number.
 
-#### country.mobilePhoneNumber
+## Events
+
+### country.mobilePhoneNumber
 Triggered when the country has changed.

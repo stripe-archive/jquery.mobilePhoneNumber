@@ -49,138 +49,123 @@ formattedPhoneNumber_ = (phone, lastChar, allowsPhoneWithoutPrefix = null) ->
       phone = formattedPhone + phoneDigits
   phone
 
-class MobilePhoneNumber
-  constructor: (el) ->
-    @el = el
-    @el.bind('keypress', @restrictEventAndFormat_)
-    @el.bind('keyup', @formatUp_)
-    @el.bind('keydown', @formatBack_)
+isEventAllowed_ = (e) ->
+  # Key event is for a browser shortcut
+  return true if e.metaKey
+  # If keycode is a space
+  return false if e.which is 32
+  # If keycode is a special char (WebKit)
+  return true if e.which is 0
+  # If char is a special char (Firefox)
+  return true if e.which < 33
+  isEventAllowedChar_(e)
 
-    @allowsPhoneWithoutPrefix = null
+isEventAllowedChar_ = (e) ->
+  char = String.fromCharCode(e.which)
+  # Char is a number or a space or a +
+  !!/[\d\s+]/.test(char)
 
-  setAllowsPhoneWithoutPrefix: (prefix) =>
-    @allowsPhoneWithoutPrefix = prefix
+restrictEventAndFormat_ = (e) ->
+  if !isEventAllowed_(e)
+    return e.preventDefault()
 
-  val: =>
-    val = @el.val().replace(/[^0-9]/g, '')
-    format = formatForPhone_(val, @allowsPhoneWithoutPrefix)
-    if @el.val().indexOf('+') == 0 or !@allowsPhoneWithoutPrefix
-      '+' + val
-    else
-      @allowsPhoneWithoutPrefix + val
+  return if !isEventAllowedChar_(e)
+  value = @val()
+  value = value.substring(0, @caret().start) +
+          String.fromCharCode(e.which) +
+          value.substring(@caret().end, value.length)
+  charDiff = value.length - @val().length
+  selection = [ @caret().start, @caret().end ]
+  selectionAtEnd = selection[1] == @val().length
+  format_.call(@, value, e)
+  if !selectionAtEnd
+    s = selection[1] + charDiff
+    @[0].selectionStart = s
+    @[0].selectionEnd = s
 
-  validate: =>
-    val = @val()
-    format = formatForPhone_(val, @allowsPhoneWithoutPrefix)
-    return true unless format
-    return val.length > format.prefix.length
+formatUp_ = (e) ->
+  checkForCountryChange_.call(@)
+  value = @val()
+  return if e.keyCode == 8 && (@caret().end == @caret().start && @caret().end == value.length)
+  format_.call(@, value, e)
 
-  country: =>
-    format = formatForPhone_(@val())
-    format.country if format
+formatBack_ = (e) ->
+  return if !e
+  return if e.meta
+  value = @val()
+  return if value.length == 0
+  return if !(@caret().end == @caret().start && @caret().end == value.length)
+  return if e.keyCode != 8
 
-  prefix: =>
-    countryCode = @country()
-    return "" if !countryCode?
-    $.mobilePhoneNumberPrefixFromCountryCode(countryCode)
+  value = value.substring(0, value.length - 1)
+  e.preventDefault()
+  phone = formattedPhone_.call(@, value, false)
+  if @val() != phone
+    @val(phone)
 
-  # Private Methods
-  # Selection utilities
-  selectionStart_ : =>
-    @el.caret().start
-
-  selectionEnd_ : =>
-    @el.caret().end
-
-  setSelection_ : (start, end) =>
-    @el[0].selectionStart = start
-    @el[0].selectionEnd = end
-
-  # Event utilities
-  isEventAllowed_ : (e) =>
-    # Key event is for a browser shortcut
-    return true if e.metaKey
-    # If keycode is a space
-    return false if e.which is 32
-    # If keycode is a special char (WebKit)
-    return true if e.which is 0
-    # If char is a special char (Firefox)
-    return true if e.which < 33
-    @isEventAllowedChar_(e)
-
-  isEventAllowedChar_ : (e) =>
-    char = String.fromCharCode(e.which)
-    # Char is a number or a space or a +
-    !!/[\d\s+]/.test(char)
-
-  # Events handler
-  restrictEventAndFormat_ : (e) =>
-    if !@isEventAllowed_(e)
-      return e.preventDefault()
-
-    return if !@isEventAllowedChar_(e)
-    value = @el.val()
-    value = value.substring(0, @selectionStart_()) +
-            String.fromCharCode(e.which) +
-            value.substring(@selectionEnd_(), value.length)
-    charDiff = value.length - @el.val().length
-    selection = [ @selectionStart_(), @selectionEnd_() ]
-    selectionAtEnd = selection[1] == @el.val().length
-    @format_(value, e)
-    if !selectionAtEnd
-      s = selection[1] + charDiff
-      @setSelection_(s, s)
-
-  formatUp_ : (e) =>
-    @checkForCountryChange_()
-    value = @el.val()
-    return if e.keyCode == 8 && (@selectionEnd_() == @selectionStart_() && @selectionEnd_() == value.length)
-    @format_(value, e)
-
-  formatBack_ : (e) =>
-    return if !e
-    return if e.meta
-    value = @el.val()
-    return if value.length == 0
-    return if !(@selectionEnd_() == @selectionStart_() && @selectionEnd_() == value.length)
-    return if e.keyCode != 8
-
-    value = value.substring(0, value.length - 1)
+format_ = (value, e) ->
+  phone = formattedPhone_.call(@, value, true)
+  if phone != @val()
+    selection = [ @caret().start, @caret().end ]
+    selectionAtEnd = selection[1] == @val().length
     e.preventDefault()
-    phone = @formattedPhone_(value, false)
-    if @el.val() != phone
-      @el.val(phone)
+    @val(phone)
+    if !selectionAtEnd
+      @[0].selectionStart = selection[1]
+      @[0].selectionEnd = selection[1]
 
-  # Formatting functions
-  format_ : (value, e) =>
-    phone = @formattedPhone_(value, true)
-    if phone != @el.val()
-      selection = [ @selectionStart_(), @selectionEnd_() ]
-      selectionAtEnd = selection[1] == @el.val().length
-      e.preventDefault()
-      @el.val(phone)
-      if !selectionAtEnd
-        @setSelection_(selection[1], selection[1])
-      # Fire an event (value changed?)
+formattedPhone_ = (phone, lastChar) ->
+  if phone.indexOf('+') != 0 && @data('allowsPhoneWithoutPrefix')
+    phone = phone.replace(/[^0-9]/g, '')
+  else
+    phone = '+' + phone.replace(/[^0-9]/g, '')
+  formattedPhoneNumber_(phone, lastChar, @data('allowsPhoneWithoutPrefix'))
 
-  formattedPhone_ : (phone, lastChar) =>
-    if phone.indexOf('+') != 0 && @allowsPhoneWithoutPrefix
-      phone = phone.replace(/[^0-9]/g, '')
-    else
-      phone = '+' + phone.replace(/[^0-9]/g, '')
-    formattedPhoneNumber_(phone, lastChar, @allowsPhoneWithoutPrefix)
+checkForCountryChange_ = ->
+  phone = @val()
+  format = formatForPhone_(phone, @data('allowsPhoneWithoutPrefix'))
+  country = null
+  country = format.country if format
+  if @mobilePhoneCountry != country
+    @mobilePhoneCountry = country
+    @trigger('country.mobilePhoneNumber', country)
 
-  checkForCountryChange_ : =>
-    phone = @el.val()
-    format = formatForPhone_(phone, @allowsPhoneWithoutPrefix)
-    country = null
-    country = format.country if format
-    if @mobilePhoneCountry != country
-      @mobilePhoneCountry = country
-      @el.trigger('country.mobilePhoneNumber', country)
+mobilePhoneNumber = {}
+mobilePhoneNumber.init = ->
+  @bind('keypress', restrictEventAndFormat_.bind($(@)))
+  @bind('keyup', formatUp_.bind($(@)))
+  @bind('keydown', formatBack_.bind($(@)))
+  @data('allowsPhoneWithoutPrefix', null)
 
-$.fn.mobilePhoneNumber = ->
-  new MobilePhoneNumber(@)
+mobilePhoneNumber.allowsPhoneWithoutPrefix = (prefix) ->
+  @data('allowsPhoneWithoutPrefix', prefix)
+
+mobilePhoneNumber.val = ->
+  val = @val().replace(/[^0-9]/g, '')
+  format = formatForPhone_(val, @data('allowsPhoneWithoutPrefix'))
+  if @val().indexOf('+') == 0 or !@data('allowsPhoneWithoutPrefix')?
+    '+' + val
+  else
+    @data('allowsPhoneWithoutPrefix') + val
+
+mobilePhoneNumber.validate = ->
+  val = @mobilePhoneNumber('val')
+  format = formatForPhone_(val, @data('allowsPhoneWithoutPrefix'))
+  return true unless format
+  return val.length > format.prefix.length
+
+mobilePhoneNumber.country = ->
+  format = formatForPhone_(@mobilePhoneNumber('val'))
+  format.country if format
+
+mobilePhoneNumber.prefix = ->
+  countryCode = @mobilePhoneNumber('country')
+  return "" if !countryCode?
+  $.mobilePhoneNumberPrefixFromCountryCode(countryCode)
+
+$.fn.mobilePhoneNumber = (method, args...) ->
+  method = 'init' unless method?
+  mobilePhoneNumber[method].apply(this, args)
 
 $.formatMobilePhoneNumber = (phone) ->
   phone = '+' + phone.replace(/[^0-9\*]/g, '')
