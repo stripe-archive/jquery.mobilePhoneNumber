@@ -17,12 +17,10 @@ $('input').bind('country.mobilePhoneNumber', function(e, country) {
 
 ## API
 
-### $.fn.mobilePhoneNumber()
+### $.fn.mobilePhoneNumber([options])
 Enable the automatic mobile phone number for an input.
-
-### $.fn.mobilePhoneNumber('allowsPhoneWithoutPrefix', prefix)
-Allows the user to type a phone number without the prefix for this specific prefix.
-- `prefix`: `String`, example: "+1"
+- options (optional): object
+  - allowPhoneWithoutPrefix (optional): allows the user to type a phone number without the prefix for this specific prefix.
 
 ### $.fn.mobilePhoneNumber('val')
 Returns a `String` with the prefixed phone number.
