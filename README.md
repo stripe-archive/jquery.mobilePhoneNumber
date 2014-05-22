@@ -56,4 +56,5 @@ Run `cake build`
 Dependencies:
 - `npm install jsdom`
 - `npm install jquery@1.8.3`
+
 Run `mocha --compilers coffee:coffee-script`
