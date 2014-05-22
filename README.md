@@ -17,7 +17,7 @@ $('input').bind('country.mobilePhoneNumber', function(e, country) {
 
 Dependencies:
 - [jQuery.caret](http://plugins.jquery.com/caret/)
-- Tested on jQuery 1.8.3
+- Tested on jQuery 1.8.3 and 1.11.1
 
 ## API
 
@@ -55,6 +55,6 @@ Run `cake build`
 
 Dependencies:
 - `npm install jsdom`
-- `npm install jquery@1.8.3`
+- `npm install jquery@1.11.1`
 
 Run `mocha --compilers coffee:coffee-script`

@@ -71,11 +71,11 @@ restrictEventAndFormat_ = (e) ->
 
   return if !isEventAllowedChar_(e)
   value = @val()
-  value = value.substring(0, @caret().start) +
+  value = value.substring(0, @caret()) +
           String.fromCharCode(e.which) +
-          value.substring(@caret().end, value.length)
+          value.substring(@caret(), value.length)
   charDiff = value.length - @val().length
-  selection = [ @caret().start, @caret().end ]
+  selection = [ @caret(), @caret() ]
   selectionAtEnd = selection[1] == @val().length
   format_.call(@, value, e)
   if !selectionAtEnd
@@ -86,7 +86,7 @@ restrictEventAndFormat_ = (e) ->
 formatUp_ = (e) ->
   checkForCountryChange_.call(@)
   value = @val()
-  return if e.keyCode == 8 && (@caret().end == @caret().start && @caret().end == value.length)
+  return if e.keyCode == 8 && @caret() == value.length
   format_.call(@, value, e)
 
 formatBack_ = (e) ->
@@ -94,7 +94,7 @@ formatBack_ = (e) ->
   return if e.meta
   value = @val()
   return if value.length == 0
-  return if !(@caret().end == @caret().start && @caret().end == value.length)
+  return if !(@caret() == value.length)
   return if e.keyCode != 8
 
   value = value.substring(0, value.length - 1)
@@ -106,7 +106,7 @@ formatBack_ = (e) ->
 format_ = (value, e) ->
   phone = formattedPhone_.call(@, value, true)
   if phone != @val()
-    selection = [ @caret().start, @caret().end ]
+    selection = [ @caret(), @caret() ]
     selectionAtEnd = selection[1] == @val().length
     e.preventDefault()
     @val(phone)

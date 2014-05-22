@@ -1,16 +1,20 @@
 assert = require('assert')
 jsdom = require('jsdom').jsdom
-doc = jsdom('')
-global.window = doc.createWindow()
-$      = require('jquery')
+global.document = jsdom('')
+global.window = document.createWindow()
+$ = require('jquery')
 global.jQuery = $
 
 require('../src/jquery.mobilePhoneNumber')
 require('../vendor/jquery.caret')
 
-trigger = ($input, digits) ->
+type = ($input, digits) ->
   for digit in digits
     do (digit) ->
+      e = $.Event('keydown')
+      e.which = digit.charCodeAt(0)
+      $input.trigger(e)
+
       e = $.Event('keypress')
       e.which = digit.charCodeAt(0)
       $input.trigger(e)
@@ -27,61 +31,61 @@ describe 'jquery.mobilePhoneNumber', ->
     it 'should correctly format US phone', ->
       $phone = $('<input type=text>').val('').mobilePhoneNumber()
 
-      trigger $phone, '1'
+      type $phone, '1'
       assert.equal $phone.val(), '+1 ('
 
-      trigger $phone, '4'
+      type $phone, '4'
       assert.equal $phone.val(), '+1 (4'
 
-      trigger $phone, '15'
+      type $phone, '15'
       assert.equal $phone.val(), '+1 (415) '
 
-      trigger $phone, '12'
+      type $phone, '12'
       assert.equal $phone.val(), '+1 (415) 12'
 
-      trigger $phone, '3'
+      type $phone, '3'
       assert.equal $phone.val(), '+1 (415) 123-'
 
-      trigger $phone, '4567'
+      type $phone, '4567'
       assert.equal $phone.val(), '+1 (415) 123-4567'
 
     it 'should correctly format US phone with allowPhoneWithoutPrefix +1', ->
       $phone = $('<input type=text>').val('').mobilePhoneNumber({ allowPhoneWithoutPrefix: '+1' })
 
-      trigger $phone, '415'
+      type $phone, '415'
       assert.equal $phone.val(), '(415) '
 
-      trigger $phone, '1234567'
+      type $phone, '1234567'
       assert.equal $phone.val(), '(415) 123-4567'
 
     it 'should correctly format BE phone', ->
       $phone = $('<input type=text>').val('').mobilePhoneNumber()
 
-      trigger $phone, '+32'
+      type $phone, '+32'
       assert.equal $phone.val(), '+32 '
 
-      trigger $phone, '49'
+      type $phone, '49'
       assert.equal $phone.val(), '+32 49'
 
-      trigger $phone, '5'
+      type $phone, '5'
       assert.equal $phone.val(), '+32 495 '
 
-      trigger $phone, '1'
+      type $phone, '1'
       assert.equal $phone.val(), '+32 495 1'
 
-      trigger $phone, '2'
+      type $phone, '2'
       assert.equal $phone.val(), '+32 495 12 '
 
-      trigger $phone, '3456'
+      type $phone, '3456'
       assert.equal $phone.val(), '+32 495 12 34 56'
 
     it 'should correctly format BE phone with allowPhoneWithoutPrefix +1', ->
       $phone = $('<input type=text>').val('').mobilePhoneNumber({ allowPhoneWithoutPrefix: '+1' })
 
-      trigger $phone, '+32'
+      type $phone, '+32'
       assert.equal $phone.val(), '+32 '
 
-      trigger $phone, '123456789'
+      type $phone, '123456789'
       assert.equal $phone.val(), '+32 123 45 67 89'
 
   describe 'mobilePhoneNumber("country")', ->
@@ -142,7 +146,7 @@ describe 'jquery.mobilePhoneNumber', ->
         if country == 'US'
           done()
       )
-      trigger $phone, '+1415'
+      type $phone, '+1415'
 
     it 'is triggered correctly with BE number and then US number', (done) ->
       $phone = $('<input type=text>').val('').mobilePhoneNumber()
@@ -155,6 +159,6 @@ describe 'jquery.mobilePhoneNumber', ->
           if country == 'US'
             done()
       )
-      trigger $phone, '+32495'
+      type $phone, '+32495'
       $phone.val('')
-      trigger $phone, '+1415'
+      type $phone, '+1415'
