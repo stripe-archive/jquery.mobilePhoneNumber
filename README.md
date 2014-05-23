@@ -1,59 +1,134 @@
 # jQuery.mobilePhoneNumber [![Build Status](https://travis-ci.org/stripe/jquery.mobilePhoneNumber.svg?branch=master)](https://travis-ci.org/stripe/jquery.mobilePhoneNumber)
 
-This plugin allows you to add mobile phone number formatting in any HTML input: [demo here](http://stripe.github.io/jquery.mobilePhoneNumber/example/).
+A general purpose library for validating and formatting mobile phone numbers.
 
-Example:
 ``` javascript
-$('input').mobilePhoneNumber();
+$('input.phone-num').mobilePhoneNumber();
 ```
 
-You can also listen to country change when the user edits the phone number:
+Your can bind to an event when the user changes the country of the phone number:
+
 ``` javascript
-$('input').bind('country.mobilePhoneNumber', function(e, country) {
-  console.log('The new country code', country);
+$('input.phone-num').bind('country.mobilePhoneNumber', function(e, country) {
+  console.log('The new country code:', country);
 })
 ```
 
+You can find a [demo here](http://stripe.github.io/jquery.mobilePhoneNumber/example).
+
 Dependencies:
-- [jQuery.caret](http://plugins.jquery.com/caret/)
-- Tested on jQuery 1.8.3 and 1.11.1
+
+* [jQuery.caret](http://plugins.jquery.com/caret)
+* Tested on jQuery 1.8.3 and 1.11.1
 
 ## API
 
 ### $.fn.mobilePhoneNumber([options])
-Enable the automatic mobile phone number for an input.
-- options (optional): object
-  - allowPhoneWithoutPrefix (optional): allows the user to type a phone number without the prefix for this specific prefix.
+
+Enables mobile phone number formatting.
+
+Options include:
+
+* allowPhoneWithoutPrefix (optional): allows the user to type a phone number without the prefix for this specific value
+
+Example:
+
+``` javascript
+$('input.phone-num').mobilePhoneNumber({
+  allowPhoneWithoutPrefix: '+1'
+});
+```
 
 ### $.fn.mobilePhoneNumber('val')
-Returns a `String` with the prefixed phone number.
+
+Returns the phone number value with prefix, but without other formatting.
+
+Example:
+
+``` javascript
+$('input.phone-num').val(); //=> '+1 (415) 123-5554'
+$('input.phone-num').mobilePhoneNumber('val') //=> '+14151235554'
+```
 
 ### $.fn.mobilePhoneNumber('validate')
-Check if the entered phone number is valid.
-Note: this implementation is too naive, it only validates if the phone number entered is longer than the prefix.
+
+Returns whether the phone number is valid.
+
+*Note:* this implementation is very naive; it only validates that the phone number is longer than its prefix.
+
+Example:
+
+``` javascript
+$('input.phone-num').val(); //=> '+1 (415) 123-5554'
+$('input.phone-num').mobilePhoneNumber('validate') //=> true
+
+$('input.phone-num').val(); //=> '+43'
+$('input.phone-num').mobilePhoneNumber('validate') //=> false
+```
 
 ### $.fn.mobilePhoneNumber('country')
-Returns the country code of the entered phone number.
+
+Returns the two-letter country code of the phone number.
+
+Example:
+
+``` javascript
+$('input.phone-num').val(); //=> '+32 495 12 34 56'
+$('input.phone-num').mobilePhoneNumber('country') //=> 'BE'
+```
 
 ### $.fn.mobilePhoneNumber('prefix')
-Returns the prefix of the entered phone number.
+
+Returns the prefix of the phone number.
+
+Example:
+
+``` javascript
+$('input.phone-num').val(); //=> '+32 495 12 34 56'
+$('input.phone-num').mobilePhoneNumber('prefix') //=> '+32'
+```
 
 ### $.formatMobilePhoneNumber(phone)
+
 Returns the formatted phone number.
+
+Example:
+
+``` javascript
+$.formatMobilePhoneNumber('14151235554') //=> '+1 (415) 123-5554'
+```
 
 ## Events
 
 ### country.mobilePhoneNumber
+
 Triggered when the country has changed.
+
+Example:
+
+``` javascript
+$('input.phone-num').bind('country.mobilePhoneNumber', function(e, country) {
+  console.log('The new country code:', country);
+})
+
+$('input.phone-num').val('+32495123456').keyup(); // As though user typed it
+//=> The new country code: BE
+```
 
 ## Building
 
 Run `cake build`
 
-## Run tests
+## Running tests
 
-Dependencies:
-- `npm install jsdom`
-- `npm install jquery@1.11.1`
+Run `cake test`
 
-Run `mocha --compilers coffee:coffee-script`
+## Mobile recommendations
+
+We recommend you set the `pattern`, `type`, and `x-autocompletetype` attributes, which will trigger autocompletion and a numeric keypad to display on touch devices:
+
+``` html
+<input class="phone-nul" type="tel" pattern="\d*" x-autocompletetype="tel">
+```
+
+You may have to turn off HTML5 validation (using the `novalidate` form attribute) when using this `pattern`, since it won't permit spaces and other characters which appear in the formatted version of the phone number.
