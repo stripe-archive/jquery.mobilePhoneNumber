@@ -1,0 +1,28 @@
+{
+  "name": "jquery.mobilePhoneNumber",
+  "version": "1.0.0",
+  "description": "A general purpose library for validating and formatting mobile phone numbers.",
+  "license": "MIT",
+  "keywords": [
+    "phone"
+  ],
+  "author": "Stripe (https://www.stripe.com)",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/stripe/jquery.mobilePhoneNumber.git"
+  },
+  "main": "lib/jquery.mobilePhoneNumber.js",
+  "scripts": {
+    "test": "cake test"
+  },
+  "dependencies": {
+    "jquery": ">=1.5"
+  },
+  "devDependencies": {
+    "cake": "~0.1",
+    "coffee-script": "~1.7",
+    "jsdom": "~0.10",
+    "mocha": "~1.18"
+  }
+}
