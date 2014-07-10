@@ -134,9 +134,12 @@ mobilePhoneNumber = {}
 mobilePhoneNumber.init = (options = {}) ->
   unless @data('mobilePhoneNumberInited')
     @data('mobilePhoneNumberInited', true)
-    @bind('keypress', restrictEventAndFormat_.bind($(@)))
-    @bind('keyup', formatUp_.bind($(@)))
-    @bind('keydown', formatBack_.bind($(@)))
+    @bind 'keypress', =>
+      restrictEventAndFormat_.apply($(@), arguments)
+    @bind 'keyup', =>
+      formatUp_.apply($(@), arguments)
+    @bind 'keydown', =>
+      formatBack_.apply($(@), arguments)
 
   @data('allowPhoneWithoutPrefix', options.allowPhoneWithoutPrefix)
 
