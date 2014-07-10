@@ -126,8 +126,8 @@ checkForCountryChange_ = ->
   format = formatForPhone_(phone, @data('allowPhoneWithoutPrefix'))
   country = null
   country = format.country if format
-  if @mobilePhoneCountry != country
-    @mobilePhoneCountry = country
+  if @data('mobilePhoneCountry') != country
+    @data('mobilePhoneCountry', country)
     @trigger('country.mobilePhoneNumber', country)
 
 mobilePhoneNumber = {}
