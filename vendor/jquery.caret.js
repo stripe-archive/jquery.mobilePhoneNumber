@@ -1,7 +1,7 @@
 (function($) {
   $.fn.caret = function(pos) {
     var target = this[0];
-  var isContentEditable = target.contentEditable === 'true';
+    var isContentEditable = target.contentEditable === 'true';
     //get
     if (arguments.length == 0) {
       //HTML5
@@ -38,9 +38,6 @@
         while (range.moveStart('character', -1) !== 0) pos++;
         return pos;
       }
-      // Addition for jsdom support
-      if (target.selectionStart)
-        return target.selectionStart;
       //not supported
       return 0;
     }
@@ -70,4 +67,4 @@
       target.focus();
     return pos;
   }
-})(jQuery)
+})(jQuery);
