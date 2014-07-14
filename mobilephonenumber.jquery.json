@@ -1,6 +1,6 @@
 {
   "name": "mobilephonenumber",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "title": "jQuery.mobilePhoneNumber",
   "description": "A general purpose library for validating and formatting mobile phone numbers.",
   "keywords": [
