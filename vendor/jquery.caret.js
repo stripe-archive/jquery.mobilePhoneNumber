@@ -70,4 +70,4 @@
       target.focus();
     return pos;
   }
-})(jQuery)
+})(jQuery);
