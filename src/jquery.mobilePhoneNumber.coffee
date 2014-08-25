@@ -1,8 +1,8 @@
 $ = jQuery
 
-formatForPhone_ = (phone, allowPhoneWithoutPrefix = null) ->
-  if phone.indexOf('+') != 0 and allowPhoneWithoutPrefix
-    phone = allowPhoneWithoutPrefix + phone.replace(/[^0-9]/g, '')
+formatForPhone_ = (phone, defaultPrefix = null) ->
+  if phone.indexOf('+') != 0 and defaultPrefix
+    phone = defaultPrefix + phone.replace(/[^0-9]/g, '')
   else
     phone = '+' + phone.replace(/[^0-9]/g, '')
   bestFormat = null
@@ -20,16 +20,16 @@ prefixesAreSubsets_ = (prefixA, prefixB) ->
     return prefixB.substring(0, prefixA.length) == prefixA
   return prefixA.substring(0, prefixB.length) == prefixB
 
-formattedPhoneNumber_ = (phone, lastChar, allowPhoneWithoutPrefix = null) ->
-  if phone.length != 0 and (phone.substring(0, 1) == "+" or allowPhoneWithoutPrefix)
-    format = formatForPhone_(phone, allowPhoneWithoutPrefix)
+formattedPhoneNumber_ = (phone, lastChar, defaultPrefix = null) ->
+  if phone.length != 0 and (phone.substring(0, 1) == "+" or defaultPrefix)
+    format = formatForPhone_(phone, defaultPrefix)
     if format && format.format
       phoneFormat = format.format
       phonePrefix = format.prefix
 
-      if allowPhoneWithoutPrefix
-        if (allowPhoneWithoutPrefix == phonePrefix or prefixesAreSubsets_(phonePrefix, allowPhoneWithoutPrefix)) and (phone.indexOf('+') != 0 or phone.length == 0)
-          phoneFormat = phoneFormat.substring(Math.min(phonePrefix.length, allowPhoneWithoutPrefix.length) + 1)
+      if defaultPrefix
+        if (defaultPrefix == phonePrefix or prefixesAreSubsets_(phonePrefix, defaultPrefix)) and (phone.indexOf('+') != 0 or phone.length == 0)
+          phoneFormat = phoneFormat.substring(Math.min(phonePrefix.length, defaultPrefix.length) + 1)
 
       if phone.substring(0, 1) == "+"
         phoneDigits = phone.substring(1)
@@ -115,15 +115,15 @@ format_ = (value, e) ->
       @[0].selectionEnd = selection[1]
 
 formattedPhone_ = (phone, lastChar) ->
-  if phone.indexOf('+') != 0 && @data('allowPhoneWithoutPrefix')
+  if phone.indexOf('+') != 0 && @data('defaultPrefix')
     phone = phone.replace(/[^0-9]/g, '')
   else
     phone = '+' + phone.replace(/[^0-9]/g, '')
-  formattedPhoneNumber_(phone, lastChar, @data('allowPhoneWithoutPrefix'))
+  formattedPhoneNumber_(phone, lastChar, @data('defaultPrefix'))
 
 checkForCountryChange_ = ->
   phone = @val()
-  format = formatForPhone_(phone, @data('allowPhoneWithoutPrefix'))
+  format = formatForPhone_(phone, @data('defaultPrefix'))
   country = null
   country = format.country if format
   if @data('mobilePhoneCountry') != country
@@ -141,19 +141,19 @@ mobilePhoneNumber.init = (options = {}) ->
     @bind 'keydown', =>
       formatBack_.apply($(@), arguments)
 
-  @data('allowPhoneWithoutPrefix', options.allowPhoneWithoutPrefix)
+  @data('defaultPrefix', options.allowPhoneWithoutPrefix ? options.defaultPrefix)
 
 mobilePhoneNumber.val = ->
   val = @val().replace(/[^0-9]/g, '')
-  format = formatForPhone_(val, @data('allowPhoneWithoutPrefix'))
-  if @val().indexOf('+') == 0 or !@data('allowPhoneWithoutPrefix')?
+  format = formatForPhone_(val, @data('defaultPrefix'))
+  if @val().indexOf('+') == 0 or !@data('defaultPrefix')?
     '+' + val
   else
-    @data('allowPhoneWithoutPrefix') + val
+    @data('defaultPrefix') + val
 
 mobilePhoneNumber.validate = ->
   val = @mobilePhoneNumber('val')
-  format = formatForPhone_(val, @data('allowPhoneWithoutPrefix'))
+  format = formatForPhone_(val, @data('defaultPrefix'))
   return true unless format
   return val.length > format.prefix.length
 
@@ -474,6 +474,7 @@ formats =
   '+81' :
     country : 'JP',
     format : '+.. ...-...-....',
+    nationalPrefix: '0',
   '+254' :
     country : 'KE',
     format : '+... .. .......',

@@ -29,13 +29,13 @@ Enables phone number formatting.
 
 Options:
 
-* `allowPhoneWithoutPrefix`: allows the user to type a phone number without the prefix for this specific value.
+* `defaultPrefix`: allows the user to type a phone number without the prefix for this specific value.
 
 Example:
 
 ``` javascript
 $('input.phone-num').mobilePhoneNumber({
-  allowPhoneWithoutPrefix: '+1'
+  defaultPrefix: '+1'
 });
 ```
 

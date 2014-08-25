@@ -49,8 +49,8 @@ describe 'jquery.mobilePhoneNumber', ->
       type $phone, '4567'
       assert.equal $phone.val(), '+1 (415) 123-4567'
 
-    it 'should correctly format US phone with allowPhoneWithoutPrefix +1', ->
-      $phone = $('<input type=text>').val('').mobilePhoneNumber({ allowPhoneWithoutPrefix: '+1' })
+    it 'should correctly format US phone with defaultPrefix +1', ->
+      $phone = $('<input type=text>').val('').mobilePhoneNumber({ defaultPrefix: '+1' })
 
       type $phone, '415'
       assert.equal $phone.val(), '(415) '
@@ -79,8 +79,8 @@ describe 'jquery.mobilePhoneNumber', ->
       type $phone, '3456'
       assert.equal $phone.val(), '+32 495 12 34 56'
 
-    it 'should correctly format BE phone with allowPhoneWithoutPrefix +1', ->
-      $phone = $('<input type=text>').val('').mobilePhoneNumber({ allowPhoneWithoutPrefix: '+1' })
+    it 'should correctly format BE phone with defaultPrefix +1', ->
+      $phone = $('<input type=text>').val('').mobilePhoneNumber({ defaultPrefix: '+1' })
 
       type $phone, '+32'
       assert.equal $phone.val(), '+32 '
@@ -121,8 +121,8 @@ describe 'jquery.mobilePhoneNumber', ->
       assert.equal $phone.mobilePhoneNumber('prefix'), '+1'
 
   describe 'mobilePhoneNumber("val")', ->
-    it 'should correctly returns the val with allowPhoneWithoutPrefix on', ->
-      $phone = $('<input type=text>').mobilePhoneNumber({allowPhoneWithoutPrefix: '+1'})
+    it 'should correctly returns the val with defaultPrefix on', ->
+      $phone = $('<input type=text>').mobilePhoneNumber({defaultPrefix: '+1'})
 
       $phone.val('4151234567')
       assert.equal $phone.mobilePhoneNumber('val'), '+14151234567'
@@ -130,7 +130,7 @@ describe 'jquery.mobilePhoneNumber', ->
       $phone.val('+32123456789')
       assert.equal $phone.mobilePhoneNumber('val'), '+32123456789'
 
-    it 'should correctly returns the val with allowPhoneWithoutPrefix off', ->
+    it 'should correctly returns the val with defaultPrefix off', ->
       $phone = $('<input type=text>').mobilePhoneNumber()
 
       $phone.val('+14151234567')
