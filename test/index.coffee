@@ -58,6 +58,12 @@ describe 'jquery.mobilePhoneNumber', ->
       type $phone, '1234567'
       assert.equal $phone.val(), '(415) 123-4567'
 
+    it 'should correctly format JP phone with defaultPrefix +81', ->
+      $phone = $('<input type=text>').val('').mobilePhoneNumber({ defaultPrefix: '+81' })
+
+      type $phone, '08043691337'
+      assert.equal $phone.val(), '0804-369-1337'
+
     it 'should correctly format BE phone', ->
       $phone = $('<input type=text>').val('').mobilePhoneNumber()
 

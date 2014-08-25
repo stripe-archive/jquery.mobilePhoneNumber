@@ -9,7 +9,9 @@ formatForPhone_ = (phone, defaultPrefix = null) ->
   precision = 0
   for prefix, format of formats
     if phone.length >= prefix.length && phone.substring(0, prefix.length) == prefix && prefix.length > precision
-      bestFormat = format
+      bestFormat = {}
+      for k, v of format
+        bestFormat[k] = v
       bestFormat.prefix = prefix
       precision = prefix.length
   bestFormat
@@ -30,6 +32,11 @@ formattedPhoneNumber_ = (phone, lastChar, defaultPrefix = null) ->
       if defaultPrefix
         if (defaultPrefix == phonePrefix or prefixesAreSubsets_(phonePrefix, defaultPrefix)) and (phone.indexOf('+') != 0 or phone.length == 0)
           phoneFormat = phoneFormat.substring(Math.min(phonePrefix.length, defaultPrefix.length) + 1)
+          if format.nationalPrefix?
+            prefixPhoneFormat = ""
+            for i in [0...format.nationalPrefix.length]
+              prefixPhoneFormat += "."
+            phoneFormat = prefixPhoneFormat + phoneFormat
 
       if phone.substring(0, 1) == "+"
         phoneDigits = phone.substring(1)
