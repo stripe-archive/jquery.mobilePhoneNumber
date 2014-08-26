@@ -5,31 +5,43 @@ global.window = document.createWindow()
 $ = require('jquery')
 global.jQuery = $
 
+# jsdom doesn't support selection, so we just hack it into document.createElement
+createElement = document.createElement
+document.createElement = ->
+  el = createElement.apply(document, arguments)
+  if arguments[0] == 'input'
+    el.selectionStart = el.selectionEnd = 0
+  el
+
 require('../src/jquery.mobilePhoneNumber')
 require('../vendor/jquery.caret')
+
+createInput = ->
+  $input = $('<input type=text>')
+  # jsdom doesn't support selection, so we just define it
+  $input[0].selectionStart = $input[0].selectionEnd = 0
+  $input
+
+triggerKey = ($input, which) ->
+  for type in ['keydown', 'keypress', 'keyup']
+    $input.trigger(
+      type: type
+      which: which
+    )
 
 type = ($input, digits) ->
   for digit in digits
     do (digit) ->
-      e = $.Event('keydown')
-      e.which = digit.charCodeAt(0)
-      $input.trigger(e)
+      triggerKey($input, digit.charCodeAt(0))
 
-      e = $.Event('keypress')
-      e.which = digit.charCodeAt(0)
-      $input.trigger(e)
-
-      e = $.Event('keyup')
-      e.which = digit.charCodeAt(0)
-      $input.trigger(e)
-
-      # Hack to push the selection to the end
+      # jsdom doesn't support selection
+      # hack to push the selection to the end
       $input[0].selectionStart = $input[0].selectionEnd = 1000
 
 describe 'jquery.mobilePhoneNumber', ->
   describe 'mobilePhoneNumber', ->
     it 'should correctly format US phone', ->
-      $phone = $('<input type=text>').val('').mobilePhoneNumber()
+      $phone = createInput().val('').mobilePhoneNumber()
 
       type $phone, '1'
       assert.equal $phone.val(), '+1 ('
@@ -50,7 +62,7 @@ describe 'jquery.mobilePhoneNumber', ->
       assert.equal $phone.val(), '+1 (415) 123-4567'
 
     it 'should correctly format US phone with defaultPrefix +1', ->
-      $phone = $('<input type=text>').val('').mobilePhoneNumber({ defaultPrefix: '+1' })
+      $phone = createInput().val('').mobilePhoneNumber({ defaultPrefix: '+1' })
 
       type $phone, '415'
       assert.equal $phone.val(), '(415) '
@@ -59,13 +71,13 @@ describe 'jquery.mobilePhoneNumber', ->
       assert.equal $phone.val(), '(415) 123-4567'
 
     it 'should correctly format JP phone with defaultPrefix +81', ->
-      $phone = $('<input type=text>').val('').mobilePhoneNumber({ defaultPrefix: '+81' })
+      $phone = createInput().val('').mobilePhoneNumber({ defaultPrefix: '+81' })
 
       type $phone, '08043691337'
       assert.equal $phone.val(), '0804-369-1337'
 
     it 'should correctly format BE phone', ->
-      $phone = $('<input type=text>').val('').mobilePhoneNumber()
+      $phone = createInput().val('').mobilePhoneNumber()
 
       type $phone, '+32'
       assert.equal $phone.val(), '+32 '
@@ -86,7 +98,7 @@ describe 'jquery.mobilePhoneNumber', ->
       assert.equal $phone.val(), '+32 495 12 34 56'
 
     it 'should correctly format BE phone with defaultPrefix +1', ->
-      $phone = $('<input type=text>').val('').mobilePhoneNumber({ defaultPrefix: '+1' })
+      $phone = createInput().val('').mobilePhoneNumber({ defaultPrefix: '+1' })
 
       type $phone, '+32'
       assert.equal $phone.val(), '+32 '
@@ -94,9 +106,19 @@ describe 'jquery.mobilePhoneNumber', ->
       type $phone, '123456789'
       assert.equal $phone.val(), '+32 123 45 67 89'
 
+    it 'should correctly replace when select all + type', ->
+      $phone = createInput().val('123456789').mobilePhoneNumber()
+
+      $phone.get(0).selectionStart = 0
+      $phone.get(0).selectionEnd = 10
+
+      type $phone, '0'
+
+      assert.equal $phone.val(), '+0'
+
   describe 'mobilePhoneNumber("country")', ->
     it 'should correctly find the country', ->
-      $phone = $('<input type=text>').mobilePhoneNumber()
+      $phone = createInput().mobilePhoneNumber()
 
       $phone.val('+1415123')
       assert.equal $phone.mobilePhoneNumber('country'), 'US'
@@ -112,7 +134,7 @@ describe 'jquery.mobilePhoneNumber', ->
 
   describe 'mobilePhoneNumber("prefix")', ->
     it 'should correctly find the prefix', ->
-      $phone = $('<input type=text>').mobilePhoneNumber()
+      $phone = createInput().mobilePhoneNumber()
 
       $phone.val('+1415123')
       assert.equal $phone.mobilePhoneNumber('prefix'), '+1'
@@ -128,7 +150,7 @@ describe 'jquery.mobilePhoneNumber', ->
 
   describe 'mobilePhoneNumber("val")', ->
     it 'should correctly returns the val with defaultPrefix on', ->
-      $phone = $('<input type=text>').mobilePhoneNumber({defaultPrefix: '+1'})
+      $phone = createInput().mobilePhoneNumber({defaultPrefix: '+1'})
 
       $phone.val('4151234567')
       assert.equal $phone.mobilePhoneNumber('val'), '+14151234567'
@@ -137,7 +159,7 @@ describe 'jquery.mobilePhoneNumber', ->
       assert.equal $phone.mobilePhoneNumber('val'), '+32123456789'
 
     it 'should correctly returns the val with defaultPrefix off', ->
-      $phone = $('<input type=text>').mobilePhoneNumber()
+      $phone = createInput().mobilePhoneNumber()
 
       $phone.val('+14151234567')
       assert.equal $phone.mobilePhoneNumber('val'), '+14151234567'
@@ -147,7 +169,7 @@ describe 'jquery.mobilePhoneNumber', ->
 
   describe 'event country.mobilePhoneNumber', ->
     it 'is triggered correctly with US number', (done) ->
-      $phone = $('<input type=text>').val('').mobilePhoneNumber()
+      $phone = createInput().val('').mobilePhoneNumber()
       $phone.bind('country.mobilePhoneNumber', (e, country) ->
         if country == 'US'
           done()
@@ -155,7 +177,7 @@ describe 'jquery.mobilePhoneNumber', ->
       type $phone, '+1415'
 
     it 'is triggered correctly with BE number and then US number', (done) ->
-      $phone = $('<input type=text>').val('').mobilePhoneNumber()
+      $phone = createInput().val('').mobilePhoneNumber()
       isFirst = true
       $phone.bind('country.mobilePhoneNumber', (e, country) ->
         if isFirst

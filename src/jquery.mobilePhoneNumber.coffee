@@ -1,5 +1,7 @@
 $ = jQuery
 
+supportSelectionEnd = 'selectionEnd' of document.createElement('input')
+
 formatForPhone_ = (phone, defaultPrefix = null) ->
   if phone.indexOf('+') != 0 and defaultPrefix
     phone = defaultPrefix + phone.replace(/[^0-9]/g, '')
@@ -78,17 +80,15 @@ restrictEventAndFormat_ = (e) ->
 
   return if !isEventAllowedChar_(e)
   value = @val()
+  caretEnd = if supportSelectionEnd then @get(0).selectionEnd else @caret()
   value = value.substring(0, @caret()) +
           String.fromCharCode(e.which) +
-          value.substring(@caret(), value.length)
-  charDiff = value.length - @val().length
-  selection = [ @caret(), @caret() ]
-  selectionAtEnd = selection[1] == @val().length
+          value.substring(caretEnd, value.length)
+  selection = @caret()
+  selectionAtEnd = selection == @val().length
   format_.call(@, value, e)
   if !selectionAtEnd
-    s = selection[1] + charDiff
-    @[0].selectionStart = s
-    @[0].selectionEnd = s
+    @caret(@val().length)
 
 formatUp_ = (e) ->
   checkForCountryChange_.call(@)
@@ -113,13 +113,12 @@ formatBack_ = (e) ->
 format_ = (value, e) ->
   phone = formattedPhone_.call(@, value, true)
   if phone != @val()
-    selection = [ @caret(), @caret() ]
-    selectionAtEnd = selection[1] == @val().length
+    selection = @caret()
+    selectionAtEnd = selection == @val().length
     e.preventDefault()
     @val(phone)
     if !selectionAtEnd
-      @[0].selectionStart = selection[1]
-      @[0].selectionEnd = selection[1]
+      @caret(selection)
 
 formattedPhone_ = (phone, lastChar) ->
   if phone.indexOf('+') != 0 && @data('defaultPrefix')
