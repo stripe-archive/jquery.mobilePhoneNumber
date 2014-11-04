@@ -488,17 +488,11 @@ formats =
     country : 'KG',
     format : '+... ... ... ...',
   '+855' :
-    country: "KH",
-    format: "+... .. ... ...",
-    min_length: 12,
-    max_length: 13,
-    pattern: /^\+855[1-9]\d{7,8}$/,
+    country: 'KH',
+    format: '+... .. ... ...',
   '+8550' :
-    country: "KH",
-    format: "+... (.) .. ... ...",
-    min_length: 13,
-    max_length: 14,
-    pattern: /^\+8550[1-9]\d{7,8}$/,
+    country: 'KH',
+    format: '+... (.) .. ... ...',
   '+686' :
     country : 'KI',
   '+269' :

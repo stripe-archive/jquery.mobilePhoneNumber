@@ -202,19 +202,3 @@ describe 'jquery.mobilePhoneNumber', ->
       type $phone, '+32495'
       $phone.val('')
       type $phone, '+1415'
-
-  describe 'mobilePhoneNumber.validate', ->
-    it 'should correctly validate KH the phone numbers', ->
-      $phone = createInput().val('').mobilePhoneNumber()
-      $phone.val("85589481812") # valid KH number
-      assert.equal $phone.mobilePhoneNumber('validate'), true
-      $phone.val("855894818121") # valid long KH number
-      assert.equal $phone.mobilePhoneNumber('validate'), true
-      $phone.val("8558948181211") # invalid KH number (too long)
-      assert.equal $phone.mobilePhoneNumber('validate'), false
-      $phone.val("8558948181") # invalid KH number (too short)
-      assert.equal $phone.mobilePhoneNumber('validate'), false
-      $phone.val("855089481812") # valid KH number (starts with 0)
-      assert.equal $phone.mobilePhoneNumber('validate'), true
-      $phone.val("8550089481812") # invalid KH number (starts with 00)
-      assert.equal $phone.mobilePhoneNumber('validate'), false
