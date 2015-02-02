@@ -2,6 +2,9 @@ $ = jQuery
 
 supportSelectionEnd = 'selectionEnd' of document.createElement('input')
 
+# Timeout to work around cursor bugs in Android Firefox
+withTimeout = (fn) -> setTimeout(fn, 50)
+
 formatForPhone_ = (phone, defaultPrefix = null) ->
   if phone.indexOf('+') != 0 and defaultPrefix
     phone = defaultPrefix + phone.replace(/[^0-9]/g, '')
@@ -84,11 +87,8 @@ restrictEventAndFormat_ = (e) ->
   value = value.substring(0, @caret()) +
           String.fromCharCode(e.which) +
           value.substring(caretEnd, value.length)
-  selection = @caret()
-  selectionAtEnd = selection == @val().length
   format_.call(@, value, e)
-  if !selectionAtEnd
-    @caret(@val().length)
+  withTimeout => @caret(@val().length)
 
 formatUp_ = (e) ->
   checkForCountryChange_.call(@)
@@ -118,7 +118,7 @@ format_ = (value, e) ->
     e.preventDefault()
     @val(phone)
     if !selectionAtEnd
-      @caret(selection)
+      withTimeout => @caret(selection)
 
 formattedPhone_ = (phone, lastChar) ->
   if phone.indexOf('+') != 0 && @data('defaultPrefix')
