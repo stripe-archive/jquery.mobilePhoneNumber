@@ -1,6 +1,6 @@
 {
   "name": "jquery.mobilephonenumber",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "main": "lib/jquery.mobilePhoneNumber.js",
   "dependencies": {
     "jquery": ">=1.5"
