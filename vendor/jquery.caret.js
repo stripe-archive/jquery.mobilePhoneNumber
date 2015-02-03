@@ -1,7 +1,7 @@
 (function($) {
   $.fn.caret = function(pos) {
     var target = this[0];
-  var isContentEditable = target.contentEditable === 'true';
+	var isContentEditable = target.contentEditable === 'true';
     //get
     if (arguments.length == 0) {
       //HTML5
@@ -60,11 +60,17 @@
     }
     //IE<9
     else if (document.body.createTextRange) {
-      var range = document.body.createTextRange();
-      range.moveToElementText(target);
-      range.moveStart('character', pos);
-      range.collapse(true);
-      range.select();
+      if (isContentEditable) {
+        var range = document.body.createTextRange();
+        range.moveToElementText(target);
+        range.moveStart('character', pos);
+        range.collapse(true);
+        range.select();
+      } else {
+        var range = target.createTextRange();
+        range.move('character', pos);
+        range.select();
+      }
     }
     if (!isContentEditable)
       target.focus();
