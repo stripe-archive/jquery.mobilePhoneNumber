@@ -479,7 +479,7 @@ formats =
     format : '+... . .... ....',
   '+81' :
     country : 'JP',
-    format : '+.. ...-...-....',
+    format : '+.. ..-....-....',
     nationalPrefix: '0',
   '+254' :
     country : 'KE',
