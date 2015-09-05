@@ -6,7 +6,7 @@ A general purpose library for validating and formatting mobile phone numbers.
 $('input.phone-num').mobilePhoneNumber();
 ```
 
-Your can bind to an event when the user changes the country of the phone number:
+You can bind to an event when the user changes the country of the phone number:
 
 ``` javascript
 $('input.phone-num').bind('country.mobilePhoneNumber', function(e, country) {
