@@ -148,7 +148,9 @@ mobilePhoneNumber.init = (options = {}) ->
       formatBack_.apply($(@), arguments)
 
   @data('defaultPrefix', options.allowPhoneWithoutPrefix ? options.defaultPrefix)
-  @val(formattedPhone_.call(this, @val(), false))
+  if @val() != ''
+    @val(formattedPhone_.call(this, @val(), false))
+  @
 
 mobilePhoneNumber.val = ->
   val = @val().replace(/[^0-9]/g, '')

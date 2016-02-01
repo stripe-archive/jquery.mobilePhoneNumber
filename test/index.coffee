@@ -40,6 +40,11 @@ type = ($input, digits) ->
 
 describe 'jquery.mobilePhoneNumber', ->
   describe 'mobilePhoneNumber', ->
+    it 'shouldnt change the input value when enabling if value was null', ->
+      $phone = createInput().val('').mobilePhoneNumber()
+
+      assert.equal $phone.val(), ''
+
     it 'should correctly format US phone', ->
       $phone = createInput().val('').mobilePhoneNumber()
 
