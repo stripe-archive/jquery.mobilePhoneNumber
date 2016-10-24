@@ -1,4 +1,4 @@
-# jQuery.mobilePhoneNumber [![Build Status](https://travis-ci.org/stripe/jquery.mobilePhoneNumber.svg?branch=master)](https://travis-ci.org/stripe/jquery.mobilePhoneNumber)
+# jQuery.mobilePhoneNumber [![Build Status](https://travis-ci.org/stripe/jquery.mobilePhoneNumber.svg?branch=master)](https://travis-ci.org/stripe/jquery.mobilePhoneNumber) [![CDNJS](https://img.shields.io/cdnjs/v/jquery.mobilephonenumber.svg)](https://cdnjs.com/libraries/jquery.mobilephonenumber/)
 
 A general purpose library for validating and formatting mobile phone numbers.
 
