@@ -164,7 +164,7 @@ mobilePhoneNumber.validate = ->
   val = @mobilePhoneNumber('val')
   format = formatForPhone_(val, @data('defaultPrefix'))
   return true unless format
-  return val.length > format.prefix.length
+  return (val.length > format.prefix.length) && (!format.min_length || val.length >= format.min_length) && (!format.max_length || val.length <= format.max_length) && (!format.pattern || format.pattern.test(val))
 
 mobilePhoneNumber.country = ->
   format = formatForPhone_(@mobilePhoneNumber('val'))
@@ -491,8 +491,11 @@ formats =
     country : 'KG',
     format : '+... ... ... ...',
   '+855' :
-    country : 'KH',
-    format : '+... .. ... ...',
+    country: 'KH',
+    format: '+... .. ... ...',
+  '+8550' :
+    country: 'KH',
+    format: '+... (.) .. ... ...',
   '+686' :
     country : 'KI',
   '+269' :

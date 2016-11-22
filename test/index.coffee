@@ -111,6 +111,18 @@ describe 'jquery.mobilePhoneNumber', ->
       type $phone, '123456789'
       assert.equal $phone.val(), '+32 123 45 67 89'
 
+    it 'should correctly format KH phone', ->
+      $phone = createInput().val('').mobilePhoneNumber()
+      type $phone, '855'
+      assert.equal $phone.val(), '+855 '
+
+      type $phone, '089481812'
+      assert.equal $phone.val(), '+855 (0) 89 481 812'
+
+      $phone.val('')
+      type $phone, "85589481812"
+      assert.equal $phone.val(), '+855 89 481 812'
+
     it 'should correctly replace when select all + type', ->
       $phone = createInput().val('123456789').mobilePhoneNumber()
 
