@@ -205,6 +205,7 @@ formats =
   '+93' :
     country : 'AF',
     format : '+.. .. ... ....',
+    nationalPrefix: '0',
   '+1268' :
     country : 'AG',
   '+1264' :
@@ -212,6 +213,7 @@ formats =
   '+355' :
     country : 'AL',
     format : '+... .. ... ....',
+    nationalPrefix: '0',
   '+374' :
     country : 'AM',
     format : '+... .. ......',
@@ -221,37 +223,45 @@ formats =
   '+54' :
     country : 'AR',
     format : '+.. .. ..-....-....',
+    nationalPrefix: '0',
   '+1684' :
     country : 'AS',
   '+43' :
     country : 'AT',
     format : '+.. ... ......',
+    nationalPrefix: '0',
   '+61' :
     country : 'AU',
     format : '+.. ... ... ...',
+    nationalPrefix: '0',
   '+297' :
     country : 'AW',
     format : '+... ... ....',
   '+994' :
     country : 'AZ',
     format : '+... .. ... .. ..',
+    nationalPrefix: '8',
   '+387' :
     country : 'BA',
     format : '+... .. ...-...',
+    nationalPrefix: '0',
   '+1246' :
     country : 'BB',
   '+880' :
     country : 'BD',
     format : '+... ....-......',
+    nationalPrefix: '0',
   '+32' :
     country : 'BE',
     format : '+.. ... .. .. ..',
+    nationalPrefix: '0',
   '+226' :
     country : 'BF',
     format : '+... .. .. .. ..',
   '+359' :
     country : 'BG',
     format : '+... ... ... ..',
+    nationalPrefix: '0',
   '+973' :
     country : 'BH',
     format : '+... .... ....',
@@ -272,6 +282,7 @@ formats =
   '+55' :
     country : 'BR',
     format : '+.. .. .....-....',
+    nationalPrefix: '0',
   '+1242' :
     country : 'BS',
   '+975' :
@@ -283,6 +294,7 @@ formats =
   '+375' :
     country : 'BY',
     format : '+... .. ...-..-..',
+    nationalPrefix: '8',
   '+501' :
     country : 'BZ',
     format : '+... ...-....',
@@ -298,6 +310,7 @@ formats =
   '+41' :
     country : 'CH',
     format : '+.. .. ... .. ..',
+    nationalPrefix: '0',
   '+225' :
     country : 'CI',
     format : '+... .. .. .. ..',
@@ -313,6 +326,7 @@ formats =
   '+86' :
     country : 'CN',
     format : '+.. ... .... ....',
+    nationalPrefix: '0',
   '+57' :
     country : 'CO',
     format : '+.. ... .......',
@@ -330,6 +344,7 @@ formats =
     format : '+... . ... ....',
   '+537' :
     country : 'CY',
+    nationalPrefix: '0',
   '+357' :
     country : 'CY',
     format : '+... .. ......',
@@ -339,6 +354,7 @@ formats =
   '+49' :
     country : 'DE',
     format : '+.. .... .......',
+    nationalPrefix: '0',
   '+253' :
     country : 'DJ',
     format : '+... .. .. .. ..',
@@ -373,6 +389,7 @@ formats =
   '+358' :
     country : 'FI',
     format : '+... .. ... .. ..',
+    nationalPrefix: '0',
   '+679' :
     country : 'FJ',
     format : '+... ... ....',
@@ -387,17 +404,20 @@ formats =
   '+33' :
     country : 'FR',
     format : '+.. . .. .. .. ..',
+    nationalPrefix: '0',
   '+241' :
     country : 'GA',
     format : '+... .. .. .. ..',
   '+44' :
     country : 'GB',
     format : '+.. .... ......',
+    nationalPrefix: '0',
   '+1473' :
     country : 'GD',
   '+995' :
     country : 'GE',
     format : '+... ... .. .. ..',
+    nationalPrefix: '0',
   '+594' :
     country : 'GF',
     format : '+... ... .. .. ..',
@@ -442,24 +462,30 @@ formats =
   '+385' :
     country : 'HR',
     format : '+... .. ... ....',
+    nationalPrefix: '0',
   '+509' :
     country : 'HT',
     format : '+... .. .. ....',
   '+36' :
     country : 'HU',
     format : '+.. .. ... ....',
+    nationalPrefix: '06',
   '+62' :
     country : 'ID',
     format : '+.. ...-...-...',
+    nationalPrefix: '0',
   '+353' :
     country : 'IE',
     format : '+... .. ... ....',
+    nationalPrefix: '0',
   '+972' :
     country : 'IL',
     format : '+... ..-...-....',
+    nationalPrefix: '0',
   '+91' :
     country : 'IN',
     format : '+.. .. .. ......',
+    nationalPrefix: '0',
   '+246' :
     country : 'IO',
     format : '+... ... ....',
@@ -469,6 +495,7 @@ formats =
   '+98' :
     country : 'IR',
     format : '+.. ... ... ....',
+    nationalPrefix: '0',
   '+354' :
     country : 'IS',
     format : '+... ... ....',
@@ -480,6 +507,7 @@ formats =
   '+962' :
     country : 'JO',
     format : '+... . .... ....',
+    nationalPrefix: '0',
   '+81' :
     country : 'JP',
     format : '+.. ..-....-....',
@@ -487,12 +515,14 @@ formats =
   '+254' :
     country : 'KE',
     format : '+... .. .......',
+    nationalPrefix: '0',
   '+996' :
     country : 'KG',
     format : '+... ... ... ...',
   '+855' :
     country : 'KH',
     format : '+... .. ... ...',
+    nationalPrefix: '0',
   '+686' :
     country : 'KI',
   '+269' :
@@ -506,6 +536,7 @@ formats =
   '+82' :
     country : 'KR',
     format : '+.. ..-....-....',
+    nationalPrefix: '0',
   '+965' :
     country : 'KW',
     format : '+... ... .....',
@@ -513,9 +544,11 @@ formats =
     country : 'KY',
   '+77' :
     country : 'KZ',
+    nationalPrefix: '8',
   '+856' :
     country : 'LA',
     format : '+... .. .. ... ...',
+    nationalPrefix: '0',
   '+961' :
     country : 'LB',
     format : '+... .. ... ...',
@@ -536,6 +569,7 @@ formats =
   '+370' :
     country : 'LT',
     format : '+... ... .....',
+    nationalPrefix: '8',
   '+352' :
     country : 'LU',
     format : '+... .. .. .. ...',
@@ -548,15 +582,18 @@ formats =
   '+212' :
     country : 'MA',
     format : '+... ...-......',
+    nationalPrefix: '0',
   '+377' :
     country : 'MC',
     format : '+... . .. .. .. ..',
   '+373' :
     country : 'MD',
     format : '+... ... .. ...',
+    nationalPrefix: '0',
   '+382' :
     country : 'ME',
     format : '+... .. ... ...',
+    nationalPrefix: '0',
   '+590' :
     country : 'MF',
   '+261' :
@@ -568,12 +605,14 @@ formats =
   '+389' :
     country : 'MK',
     format : '+... .. ... ...',
+    nationalPrefix: '0',
   '+223' :
     country : 'ML',
     format : '+... .. .. .. ..',
   '+95' :
     country : 'MM',
     format : '+.. . ... ....',
+    nationalPrefix: '0',
   '+976' :
     country : 'MN',
     format : '+... .... ....',
@@ -608,6 +647,7 @@ formats =
   '+60' :
     country : 'MY',
     format : '+.. ..-... ....',
+    nationalPrefix: '0',
   '+258' :
     country : 'MZ',
     format : '+... .. ... ....',
@@ -626,12 +666,14 @@ formats =
   '+234' :
     country : 'NG',
     format : '+... ... ... ....',
+    nationalPrefix: '0',
   '+505' :
     country : 'NI',
     format : '+... .... ....',
   '+31' :
     country : 'NL',
     format : '+.. . ........',
+    nationalPrefix: '0',
   '+47' :
     country : 'NO',
     format : '+.. ... .. ...',
@@ -646,6 +688,7 @@ formats =
   '+64' :
     country : 'NZ',
     format : '+.. .. ... ....',
+    nationalPrefix: '0',
   '+968' :
     country : 'OM',
     format : '+... .... ....',
@@ -664,9 +707,11 @@ formats =
   '+63' :
     country : 'PH',
     format : '+.. .... ......',
+    nationalPrefix: '0',
   '+92' :
     country : 'PK',
     format : '+.. ... .......',
+    nationalPrefix: '0',
   '+48' :
     country : 'PL',
     format : '+.. .. ... .. ..',
@@ -697,15 +742,19 @@ formats =
   '+40' :
     country : 'RO',
     format : '+.. .. ... ....',
+    nationalPrefix: '0',
   '+381' :
     country : 'RS',
     format : '+... .. .......',
+    nationalPrefix: '0',
   '+7' :
     country : 'RU',
     format : '+. ... ...-..-..',
+    nationalPrefix: '8',
   '+250' :
     country : 'RW',
     format : '+... ... ... ...',
+    nationalPrefix: '0',
   '+966' :
     country : 'SA',
     format : '+... .. ... ....',
@@ -721,6 +770,7 @@ formats =
   '+46' :
     country : 'SE',
     format : '+.. ..-... .. ..',
+    nationalPrefix: '0',
   '+65' :
     country : 'SG',
     format : '+.. .... ....',
@@ -729,9 +779,11 @@ formats =
   '+386' :
     country : 'SI',
     format : '+... .. ... ...',
+    nationalPrefix: '0',
   '+421' :
     country : 'SK',
     format : '+... ... ... ...',
+    nationalPrefix: '0',
   '+232' :
     country : 'SL',
     format : '+... .. ......',
@@ -773,6 +825,7 @@ formats =
   '+66' :
     country : 'TH',
     format : '+.. .. ... ....',
+    nationalPrefix: '0',
   '+992' :
     country : 'TJ',
     format : '+... ... .. ....',
@@ -784,6 +837,7 @@ formats =
   '+993' :
     country : 'TM',
     format : '+... .. ..-..-..',
+    nationalPrefix: '8',
   '+216' :
     country : 'TN',
     format : '+... .. ... ...',
@@ -793,6 +847,7 @@ formats =
   '+90' :
     country : 'TR',
     format : '+.. ... ... ....',
+    nationalPrefix: '0',
   '+1868' :
     country : 'TT',
   '+688' :
@@ -800,12 +855,15 @@ formats =
   '+886' :
     country : 'TW',
     format : '+... ... ... ...',
+    nationalPrefix: '0',
   '+255' :
     country : 'TZ',
     format : '+... ... ... ...',
+    nationalPrefix: '0',
   '+380' :
     country : 'UA',
     format : '+... .. ... ....',
+    nationalPrefix: '0',
   '+256' :
     country : 'UG',
     format : '+... ... ......',
@@ -817,6 +875,7 @@ formats =
   '+998' :
     country : 'UZ',
     format : '+... .. ... .. ..',
+    nationalPrefix: '8',
   '+379' :
     country : 'VA',
   '+1784' :
@@ -824,6 +883,7 @@ formats =
   '+58' :
     country : 'VE',
     format : '+.. ...-.......',
+    nationalPrefix: '0',
   '+1284' :
     country : 'VG',
   '+1340' :
@@ -831,6 +891,7 @@ formats =
   '+84' :
     country : 'VN',
     format : '+.. .. ... .. ..',
+    nationalPrefix: '0',
   '+678' :
     country : 'VU',
     format : '+... ... ....',
@@ -845,6 +906,7 @@ formats =
   '+27' :
     country : 'ZA',
     format : '+.. .. ... ....',
+    nationalPrefix: '0',
   '+260' :
     country : 'ZM',
     format : '+... .. .......',
