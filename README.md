@@ -98,6 +98,16 @@ Example:
 $.formatMobilePhoneNumber('14151235554'); //=> '+1 (415) 123-5554'
 ```
 
+### $.mobilePhoneNumberPrefixFromCountryCode(countryCode)
+
+Returns the number prefix.
+
+Example:
+
+``` javascript
+$.mobilePhoneNumberPrefixFromCountryCode('CA'); //=> '+1'
+```
+
 ## Events
 
 ### country.mobilePhoneNumber
