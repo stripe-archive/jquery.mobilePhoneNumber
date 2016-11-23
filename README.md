@@ -16,9 +16,12 @@ $('input.phone-num').bind('country.mobilePhoneNumber', function(e, country) {
 
 You can find a [demo here](http://stripe.github.io/jquery.mobilePhoneNumber/example).
 
+Browser support:
+
+I9+
+
 Dependencies:
 
-* [jQuery.caret](http://plugins.jquery.com/caret)
 * Tested on jQuery 1.8.3 and 1.11.1
 
 ## API
