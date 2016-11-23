@@ -2,9 +2,6 @@ $ = jQuery
 
 supportSelectionEnd = 'selectionEnd' of document.createElement('input')
 
-# Timeout to work around cursor bugs in Android Firefox
-withTimeout = (fn) -> setTimeout(fn, 50)
-
 formatForPhone_ = (phone, defaultPrefix = null) ->
   if phone.indexOf('+') != 0 and defaultPrefix
     phone = defaultPrefix + phone.replace(/[^0-9]/g, '')
@@ -88,7 +85,6 @@ restrictEventAndFormat_ = (e) ->
           String.fromCharCode(e.which) +
           value.substring(caretEnd, value.length)
   format_.call(@, value, e)
-  withTimeout => @caret(@val().length)
 
 formatUp_ = (e) ->
   checkForCountryChange_.call(@)
@@ -113,12 +109,13 @@ formatBack_ = (e) ->
 format_ = (value, e) ->
   phone = formattedPhone_.call(@, value, true)
   if phone != @val()
-    selection = @caret()
-    selectionAtEnd = selection == @val().length
+    textBeforeCaret = value.slice(0, @caret() + 1).replace(/\D+/g, '')
     e.preventDefault()
     @val(phone)
+    selection = getNewCaretPosition_.call(this, textBeforeCaret)
+    selectionAtEnd = selection == @val().length
     if !selectionAtEnd
-      withTimeout => @caret(selection)
+      @caret(selection)
 
 formattedPhone_ = (phone, lastChar) ->
   if phone.indexOf('+') != 0 && @data('defaultPrefix')
@@ -135,6 +132,22 @@ checkForCountryChange_ = ->
   if @data('mobilePhoneCountry') != country
     @data('mobilePhoneCountry', country)
     @trigger('country.mobilePhoneNumber', country)
+
+getNewCaretPosition_ = (textBeforeCaret) ->
+  return @val().length unless textBeforeCaret
+
+  caretPosition = 0
+  for char in @val()
+    break unless textBeforeCaret
+    if char == textBeforeCaret[0]
+      textBeforeCaret = textBeforeCaret.substring(1)
+    caretPosition++
+
+  # If next character is not a number
+  if isNaN(this.val().slice(caretPosition, caretPosition + 1))
+    return caretPosition + @val().slice(caretPosition).split(/\d/)[0].length
+
+  caretPosition
 
 mobilePhoneNumber = {}
 mobilePhoneNumber.init = (options = {}) ->
