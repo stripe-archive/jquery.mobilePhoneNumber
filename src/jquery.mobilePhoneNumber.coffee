@@ -1,7 +1,5 @@
 $ = jQuery
 
-supportSelectionEnd = 'selectionEnd' of document.createElement('input')
-
 # Timeout to work around cursor bugs in Android Firefox
 withTimeout = (fn) -> setTimeout(fn, 50)
 
@@ -83,17 +81,17 @@ restrictEventAndFormat_ = (e) ->
 
   return if !isEventAllowedChar_(e)
   value = @val()
-  caretEnd = if supportSelectionEnd then @get(0).selectionEnd else @caret()
-  value = value.substring(0, @caret()) +
+  caretEnd = @get(0).selectionEnd
+  value = value.substring(0, caretPosition_.call(this)) +
           String.fromCharCode(e.which) +
           value.substring(caretEnd, value.length)
   format_.call(@, value, e)
-  withTimeout => @caret(@val().length)
+  withTimeout => setCaretPosition_.call(this, @val().length)
 
 formatUp_ = (e) ->
   checkForCountryChange_.call(@)
   value = @val()
-  return if e.keyCode == 8 && @caret() == value.length
+  return if e.keyCode == 8 && caretPosition_.call(this) == value.length
   format_.call(@, value, e)
 
 formatBack_ = (e) ->
@@ -101,7 +99,7 @@ formatBack_ = (e) ->
   return if e.meta
   value = @val()
   return if value.length == 0
-  return if !(@caret() == value.length)
+  return if !(caretPosition_.call(this) == value.length)
   return if e.keyCode != 8
 
   value = value.substring(0, value.length - 1)
@@ -113,12 +111,12 @@ formatBack_ = (e) ->
 format_ = (value, e) ->
   phone = formattedPhone_.call(@, value, true)
   if phone != @val()
-    selection = @caret()
+    selection = caretPosition_.call(this)
     selectionAtEnd = selection == @val().length
     e.preventDefault()
     @val(phone)
     if !selectionAtEnd
-      withTimeout => @caret(selection)
+      withTimeout => setCaretPosition_.call(this, selection)
 
 formattedPhone_ = (phone, lastChar) ->
   if phone.indexOf('+') != 0 && @data('defaultPrefix')
@@ -136,8 +134,19 @@ checkForCountryChange_ = ->
     @data('mobilePhoneCountry', country)
     @trigger('country.mobilePhoneNumber', country)
 
+caretPosition_ = ->
+  @[0].selectionStart
+
+setCaretPosition_ = (position) ->
+  @[0].setSelectionRange(position, position)
+
+browserNotSupported = ->
+  return true if !'selectionStart' of document.createElement('input')
+  return false
+
 mobilePhoneNumber = {}
 mobilePhoneNumber.init = (options = {}) ->
+  return if browserNotSupported()
   unless @data('mobilePhoneNumberInited')
     @data('mobilePhoneNumberInited', true)
     @bind 'keypress', =>
