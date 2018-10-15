@@ -20,8 +20,8 @@
   },
   "devDependencies": {
     "cake": "~0.1",
-    "coffee-script": "~1.7",
+    "coffeescript": "~1.7",
     "jsdom": "^11.6.0",
-    "mocha": "~1.18"
+    "mocha": "^5.2.0"
   }
 }
