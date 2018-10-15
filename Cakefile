@@ -15,4 +15,4 @@ task 'watch', 'Watch src/ for changes', ->
   runExternal 'coffee', ['-w', '-c', '-o', 'lib', 'src']
 
 task 'test', 'Run tests', ->
-  runExternal 'mocha', ['--compilers', 'coffee:coffee-script/register']
+  runExternal 'mocha', ['--require', 'coffeescript/register', 'test/**/*.{js,coffee}']
