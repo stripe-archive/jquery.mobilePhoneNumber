@@ -16,7 +16,7 @@
     "test": "cake test"
   },
   "dependencies": {
-    "jquery": "^3.3.1"
+    "jquery": "^3.4.1"
   },
   "devDependencies": {
     "cake": "~0.1",
