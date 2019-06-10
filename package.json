@@ -15,8 +15,10 @@
   "scripts": {
     "test": "cake test"
   },
+  "//": "nwmatcher is a dep of jquery; pinning version for security issue; ok to remove when upgrading jquery past 3.4.1",
   "dependencies": {
-    "jquery": "^3.4.1"
+    "jquery": "^3.4.1",
+    "nwmatcher": "^1.4.4"
   },
   "devDependencies": {
     "cake": "~0.1",
