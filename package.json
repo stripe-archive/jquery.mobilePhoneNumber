@@ -1,6 +1,6 @@
 {
   "name": "jquery.mobilephonenumber",
-  "version": "1.0.7",
+  "version": "1.0.8",
   "description": "A general purpose library for validating and formatting mobile phone numbers.",
   "license": "MIT",
   "keywords": [
@@ -15,8 +15,10 @@
   "scripts": {
     "test": "cake test"
   },
+  "//": "nwmatcher is a dep of jquery; pinning version for security issue; ok to remove when upgrading jquery past 3.4.1",
   "dependencies": {
-    "jquery": "^3.4.1"
+    "jquery": "^3.4.1",
+    "nwmatcher": "^1.4.4"
   },
   "devDependencies": {
     "cake": "~0.1",
